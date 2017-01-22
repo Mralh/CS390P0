@@ -14,7 +14,8 @@ public class HWRotPlayer : MonoBehaviour {
             {
                 r.collider.transform.parent.gameObject.GetComponent<Spookman>().gaze();
                 transform.GetChild(0).gameObject.GetComponent<Renderer>().sharedMaterial.color = new Color(1, 1, 1, 0.3f);
-                break;
+                if (r.distance >= 8)
+                    break;
             }
             Debug.Log("Hit");
         }

@@ -25,20 +25,31 @@ public class Spookman : MonoBehaviour
         }
     }
 
-	void FixedUpdate ()
+    void FixedUpdate()
     {
-		if (hp <= 0)
+        if (hp <= 0)
             respawn();
+        GetComponent<AudioSource>().pitch = speed / 4;
 
-        if (GetComponent<Rigidbody>().velocity.y < 1 && Mathf.Abs((playerPos - transform.position).magnitude) > 3)
+        if (Mathf.Abs((playerPos - transform.position).magnitude) > 15)
             GetComponent<Rigidbody>().velocity = (playerPos - transform.position).normalized * speed;
+        else if (Mathf.Abs((playerPos - transform.position).magnitude) > 4)
+        {
+            GetComponent<Rigidbody>().velocity = (playerPos - transform.position).normalized * 12;
+            GetComponent<AudioSource>().pitch = 3;
+        }
+        else
+        {
+            GetComponent<AudioSource>().pitch = 0;
+        }
         transform.LookAt(new Vector3(playerPos.x, transform.position.y, playerPos.z));
-
-	}
+        GetComponent<AudioSource>().volume = 0.6f * GetComponent<AudioSource>().pitch;
+    }
 
     public void gaze()
     {
-        hp -= 5;
+        if (Mathf.Abs((playerPos - transform.position).magnitude) > 8)
+            hp -= 5;
     }
 
     void respawn()
